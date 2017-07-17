@@ -2,10 +2,10 @@ import os
 
 
 
-print 'Welcome! this program will find files with pathnames that are too long'.center(75, '+')
+print 'Welcome! this program will find files with pathnames that are too long'.center(80, '+')
 outputfile = open(raw_input('Name output file: '),'w')
-
-os.chdir(str(raw_input('Which directory? ')))
+dir = str(raw_input('Which directory? '))
+os.chdir(dir)
 
 count = 0
 
@@ -17,10 +17,11 @@ for root, dirs, files in os.walk('.'):
         
         x = (root +'\\' + i )[2:] #removes ./ from filename and assigns full filepath to directory
         
-        if len(x) > 255:
+        if (len(x)+len(dir)) > 255:
             #print 'Files written: ' + str(count +1)
+            
             print len(x)
-            outputfile.write(x + '\n')
+            outputfile.write(dir + '\\' + x + '\n')
             count +=1
     
     
@@ -28,4 +29,5 @@ for root, dirs, files in os.walk('.'):
 print 'Done: total lines written: ' + str(count)
 
 outputfile.close()
+
 
