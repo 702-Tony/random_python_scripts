@@ -3,7 +3,10 @@ import os
 
 
 print 'Welcome! this program will find files with pathnames that are too long'.center(80, '+')
-outputfile = open(raw_input('Name output file: '),'w')
+fname = raw_input('Name output file: ')
+if fname[-4:-1] != '.txt': fname += '.txt'
+outputfile = open(fname,'w')# opens file matching name, otherwise creates file if not found
+
 dir = str(raw_input('Which directory? '))
 os.chdir(dir)
 
