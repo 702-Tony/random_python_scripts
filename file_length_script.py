@@ -10,7 +10,7 @@ if filename[-4:] != '.txt': filename += '.txt'
 
 outputfile = open(filename,'w')# opens file matching name, otherwise creates file if not found
 
-serverpath = 'F:\Data\Files\INACTIVE\155.001A'
+serverpath = 'F:\Data\Files\INACTIVE'
 
 dir = str(raw_input('Which directory? '))
 
