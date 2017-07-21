@@ -1,11 +1,25 @@
 import os
 
+#Runs on Windows only
+
+print 'Welcome! this program will find files with pathnames that are too long'.center(80, '+')
+
+filename = raw_input('Name output file: ')
+
+if filename[-4:] != '.txt': filename += '.txt'
+
+outputfile = open(filename,'w')# opens file matching name, otherwise creates file if not found
 
 
-print 'Welcome! this program will find files with pathnames that are too long'.center(75, '+')
-outputfile = open(raw_input('Name output file: '),'w')
+dir = str(raw_input('Which directory? '))
+if dir[0] == 'J':
+    serverpath = 11
+elif dir[0] == 'K':
+    serverpath = 8
+else :
+    serverpath = 0
 
-os.chdir(str(raw_input('Which directory? ')))
+os.chdir(dir)
 
 count = 0
 
@@ -17,10 +31,11 @@ for root, dirs, files in os.walk('.'):
         
         x = (root +'\\' + i )[2:] #removes ./ from filename and assigns full filepath to directory
         
-        if len(x) > 255:
+        if (len(x)+serverpath) > 255:
             #print 'Files written: ' + str(count +1)
-            print len(x)
-            outputfile.write(x + '\n')
+            #print (dir + '\\' + x + '\n')
+            #print len(x)
+            outputfile.write(dir + '\\' + x + '\n')
             count +=1
     
     
