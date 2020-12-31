@@ -1,21 +1,22 @@
 import os
-# this script will be used to 
+import shutil
+# this script will be used to nest items within folders of the same name
+folder_path = str(input("input folder path"))
+folder_path = "C:\\Users\\aadam\\Documents\\py_test"
+os.chdir(folder_path)
+# iterate through each file within the folder
 for root, dirs, files in os.walk('.'):
-
     for i in files:
-        if serverpath == 0: serverpath = len(dir)#changes serverpath to length reflected on current drive if not server drive J or K
-        x = (root +'\\' + i )[2:] #removes ./ from filename and assigns full filepath to directory
+        # for each file
+        og_path = os.path.join(root, i) # original path
+        # step 1 make dirs
+        # this will strip the extension from the name
+        # to create the new folder
+        new_folder = os.path.splitext(og_path)[0]
+        # create folder if it does not exist
+        if not (os.path.exists(new_folder)):
+            os.mkdir(new_folder)
 
-        if (len(x)+serverpath) > 255:
-            #print 'Files written: ' + str(count +1)
-            #print (dir + '\\' + x + '\n')
-            #print len(x)
-            if csv == True:
-                outputfile.write(str(len(x)+serverpath)+','+ dir + ',' + x + '\n')
-            else: outputfile.write(dir + '//' + x + '\n')
-
-            count +=1
-
-
-
-print 'Done: total files found: ' + str(count)
+        # move file into new folder
+        shutil.move(og_path,new_folder)
+        print(i, "successfully moved")
