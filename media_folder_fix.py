@@ -2,7 +2,7 @@ import os
 import shutil
 # this script will be used to nest items within folders of the same name
 folder_path = str(input("input folder path"))
-folder_path = "C:\\Users\\aadam\\Documents\\py_test"
+
 os.chdir(folder_path)
 # iterate through each file within the folder
 for root, dirs, files in os.walk('.'):
