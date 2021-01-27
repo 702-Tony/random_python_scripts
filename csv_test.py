@@ -2,29 +2,26 @@
 # i plan on trying to open a csv and iterate through the row like a list
 
 import csv
-# months = ["","1","2","3","4","5","6","7","8","9","10","11","12"]
-
-# open csv files
-# csv = opencsv # for data that will be moved
-# col_csv = opencsv # for where the data will be moved to
-# iterate through each row
-
+# instantiate helper vars
 n_line_yr = -1
 s_line_yr = -1
 output_n = []
 output_s = []
+# builds a clean list with 14 empty spots
 def build_list():
     new_list = []
-    for i in range(13):
+    for i in range(14):
         new_list.append('')
     return new_list
-
+# open old csv
 with open('seaice_avg.csv', newline='') as csvfile:
-    csv = csv.reader(csvfile, delimiter=' ', quotechar='|')
+    csv_r = csv.reader(csvfile, delimiter=' ', quotechar='|')
     line_n = build_list()
     line_s = build_list()
     count = 0
-    for row in csv:
+    # iterate through the rows and store the data for each month in a list
+    # that will then be stored inside another list
+    for row in csv_r:
         count += 1
         rw_ls = row[0].split(',')
         year = rw_ls[0]
@@ -45,6 +42,7 @@ with open('seaice_avg.csv', newline='') as csvfile:
             # put your data together
             line_n[0] = n_line_yr
             line_n[mon] = extent_avg
+            line_n[13] = hemisphere
         elif hemisphere == 'south':
             if s_line_yr != year:
                 # append finished line to output
@@ -55,18 +53,24 @@ with open('seaice_avg.csv', newline='') as csvfile:
                 s_line_yr = year
             line_s[0] = s_line_yr
             line_s[mon] = extent_avg
-
-
-print('items done',output_n[1],output_s[1])
-        # rw_ls = list(row)
-        # year = rw_ls[0]
-        # mon = int(rw_ls[1])
-        # hemisphere = rw_ls[2]
-        # extent_avg = rw_ls[3]
-        # if line_yr != year:
-        #     # append finished line to output
-        #     output.append(line)
-        #     # clear line
-        #     line = []
-        #     # set new line_yr to current
-        #     line_yr = year
+            line_s[13] = hemisphere
+# append final lines to outputs
+output_n.append(line_n)
+output_s.append(line_s)
+# output file
+print('csv successfully read')
+with open('sea_ice_averages_transformed.csv', 'w', newline='') as csvfile:
+    csv_w = csv.writer(csvfile, delimiter=',',quotechar='\'', quoting=csv.QUOTE_MINIMAL)
+    # removes first blank from both lists
+    output_n.pop(0)
+    output_s.pop(0)
+    # # adds hemisphere data from
+    # for i in output_n:
+    #     i.append('north')
+    # for i in output_s:
+    #     i.append('south')
+    header = ['year','jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec','hemisphere']
+    csv_w.writerow(header)
+    csv_w.writerows(output_n)
+    csv_w.writerows(output_s)
+print('csv successfully written')
